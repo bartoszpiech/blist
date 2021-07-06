@@ -29,6 +29,12 @@ blist_t *blist_new();
 void blist_destroy(blist_t *list);
 void blist_delete(blist_t *list);
 
+void blist_prepend(blist_t *list, void *val);
+void blist_append(blist_t *list, void *val);
+void *blist_pop(blist_t *list, int index);
+
+//int blist_index(blist_t 
+
 #ifdef __cplusplus
 }
 #endif
