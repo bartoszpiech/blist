@@ -13,11 +13,11 @@ int bnode_init(bnode_t *node, void *val) {
 bnode_t *bnode_new(void *val) {
 	bnode_t *node;
 	if ((node = malloc(sizeof(bnode_t))) == NULL) {
-		fprintf(stderr, "Error: could not create new node\n");
+		fprintf(stderr, "\x1b[31mError: could not create new node\x1b[0m\n");
 		exit(1);
 	}
 	if (bnode_init(node, val)) {
-		fprintf(stderr, "Error: could not init a new node\n");
+		fprintf(stderr, "\x1b[31mError: could not init a new node\x1b[0m\n");
 		exit(1);
 	}
 	return node;
@@ -44,11 +44,11 @@ int blist_init(blist_t *list) {
 blist_t *blist_new() {
 	blist_t *list;
 	if ((list = malloc(sizeof(blist_t))) == NULL) {
-		fprintf(stderr, "Error: could not create new list\n");
+		fprintf(stderr, "\x1b[31mError: could not create new list\x1b[0m\n");
 		exit(1);
 	}
 	if (blist_init(list)) {
-		fprintf(stderr, "Error: could not init a new list\n");
+		fprintf(stderr, "\x1b[31mError: could not init a new list\x1b[0m\n");
 		exit(1);
 	}
 	return list;
@@ -67,7 +67,6 @@ void blist_delete(blist_t *list) {
 	blist_destroy(list);
 	free(list);
 }
-
 
 void blist_prepend(blist_t *list, void *val) {
 	bnode_t *node = bnode_new(val);
@@ -95,16 +94,35 @@ void blist_append(blist_t *list, void *val) {
 	list->size++;
 }
 
-/*
- * size 3, index 2 ok
- * size 3, index 3 not ok
- */
+void blist_insert(blist_t *list, void *val, int index) {
+	if (index == -1) {
+		index = list->size;
+	}
+	if (index <= 0) {
+		blist_prepend(list, val);
+	} else if (index >= list->size) {
+		blist_append(list, val);
+	} else {
+		bnode_t *node = bnode_new(val);
+		bnode_t *tmp = list->head;
+		for (int i = index; i > 0; i--) {
+			tmp = tmp->next;
+		}
+		tmp->prev->next = node;
+		node->prev = tmp->prev;
+		node->next = tmp;
+		tmp->prev = node;
+		list->size++;
+	}
+}
+
 void *blist_pop(blist_t *list, int index) {
 	if (index == -1) {
 		index = list->size - 1;
 	}
 	if (index > list->size) {
-		fprintf(stderr, "Error: could not pop, index > list size\n");
+		fprintf(stderr,
+				"\x1b[31mError: could not pop, index out of range\x1b[0m\n");
 		return NULL;
 	}
 	bnode_t *node = list->head;
@@ -134,26 +152,3 @@ void *blist_pop(blist_t *list, int index) {
 	bnode_delete(node);
 	return result;
 }
-
-/*
-void *blist_pop(blist_t *list, int index) {
-	if (index == -1) {
-		index = list->size;
-	}
-	if (
-	bnode_t *node = list->head;
-	while (node && index-1) {
-		printf("DUPA\n");
-		node = node->next;
-		index--;
-	}
-	if(node == NULL) {
-		return NULL;
-	}
-	list->size--;
-	void *result = node->value;
-	node->prev->next = node->next;
-	node->next->prev = node->prev;
-	return result;
-}
-*/

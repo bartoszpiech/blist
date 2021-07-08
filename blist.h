@@ -5,6 +5,9 @@
 extern "C" {
 #endif
 
+#define blist_foreach(l) for(bnode_t *iterator = l->head; iterator != NULL;\
+			iterator = iterator->next)
+
 typedef struct bnode_t {
 	void *value;
 	struct bnode_t *prev;
@@ -31,9 +34,10 @@ void blist_delete(blist_t *list);
 
 void blist_prepend(blist_t *list, void *val);
 void blist_append(blist_t *list, void *val);
+void blist_insert(blist_t *list, void *val, int index);
 void *blist_pop(blist_t *list, int index);
 
-//int blist_index(blist_t 
+int blist_index(blist_t *list, void *val);
 
 #ifdef __cplusplus
 }
