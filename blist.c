@@ -152,3 +152,14 @@ void *blist_pop(blist_t *list, int index) {
 	bnode_delete(node);
 	return result;
 }
+
+int blist_index(blist_t *list, void *val) {
+	int index = 0;
+	blist_foreach (list) {
+		if (iterator->value == val) {
+			return index;
+		}
+		index++;
+	}
+	return -1;
+}
