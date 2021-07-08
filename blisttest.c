@@ -94,6 +94,7 @@ int test_prepend_multiple_list() {
 int test_pop_empty_list() {
 	blist_t *list = blist_new();
 	void *ptr = blist_pop(list, -1);
+	blist_delete(list);
 	if (ptr == NULL) {
 		return 1;
 	}
