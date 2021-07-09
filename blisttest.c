@@ -6,14 +6,14 @@
 #define TRUE	1
 
 int test_new_empty_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int size = list->size;
 	blist_delete(list);
 	return size;
 }
 
 int test_append_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int tmp = 5;
 	blist_append(list, &tmp);
 	int size = list->size;
@@ -22,7 +22,7 @@ int test_append_list() {
 }
 
 int test_append_multiple_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;
@@ -44,7 +44,7 @@ int test_append_multiple_list() {
 }
 
 int test_append_delete_from_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int tmp = 5;
 	blist_append(list, &tmp);
 	blist_pop(list, -1);
@@ -54,7 +54,7 @@ int test_append_delete_from_list() {
 }
 
 int test_append_delete_multiple_from_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;
@@ -69,7 +69,7 @@ int test_append_delete_multiple_from_list() {
 }
 
 int test_prepend_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	blist_prepend(list, &a);
 	int size = list->size;
@@ -78,7 +78,7 @@ int test_prepend_list() {
 }
 
 int test_prepend_multiple_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;
@@ -96,7 +96,7 @@ int test_prepend_multiple_list() {
 }
 
 int test_pop_empty_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	void *ptr = blist_pop(list, -1);
 	blist_delete(list);
 	if (ptr == NULL) {
@@ -106,7 +106,7 @@ int test_pop_empty_list() {
 }
 
 int test_insert_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	blist_insert(list, &a, 0);
 	int size = list->size;
@@ -119,7 +119,7 @@ int test_insert_list() {
 }
 
 int test_insert_multiple_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;
@@ -132,7 +132,7 @@ int test_insert_multiple_list() {
 }
 
 int test_insert_delete_multiple_from_list() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;
@@ -147,7 +147,7 @@ int test_insert_delete_multiple_from_list() {
 }
 
 int test_index() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;
@@ -160,7 +160,7 @@ int test_index() {
 }
 
 int test_index_not_present() {
-	blist_t *list = blist_new();
+	blist_t *list = blist_new(NULL);
 	int a = 5;
 	int b = 6;
 	int c = 7;

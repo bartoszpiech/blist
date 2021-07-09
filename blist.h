@@ -8,6 +8,8 @@ extern "C" {
 #define blist_foreach(l) for(bnode_t *iterator = l->head; iterator != NULL;\
 			iterator = iterator->next)
 
+typedef void (*free_function)(void *);
+
 typedef struct bnode_t {
 	void *value;
 	struct bnode_t *prev;
@@ -18,6 +20,7 @@ typedef struct {
 	unsigned int size;
 	bnode_t *head;
 	bnode_t *tail;
+	free_function free_fn;
 } blist_t;
 
 int bnode_init(bnode_t *node, void *val);
@@ -26,8 +29,8 @@ bnode_t *bnode_new(void *val);
 void bnode_destroy(bnode_t *node);
 void bnode_delete(bnode_t *node);
 
-int blist_init(blist_t *list);
-blist_t *blist_new();
+int blist_init(blist_t *list, free_function free_fn);
+blist_t *blist_new(free_function free_fn);
 
 void blist_destroy(blist_t *list);
 void blist_delete(blist_t *list);

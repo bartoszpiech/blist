@@ -34,20 +34,21 @@ void bnode_delete(bnode_t *node) {
 	free(node);
 }
 
-int blist_init(blist_t *list) {
+int blist_init(blist_t *list, free_function free_fn) {
 	list->size = 0;
 	list->head = NULL;
 	list->tail = NULL;
+	list->free_fn = free_fn;
 	return 0;
 }
 
-blist_t *blist_new() {
+blist_t *blist_new(free_function free_fn) {
 	blist_t *list;
 	if ((list = malloc(sizeof(blist_t))) == NULL) {
 		fprintf(stderr, "\x1b[31mError: could not create new list\x1b[0m\n");
 		exit(1);
 	}
-	if (blist_init(list)) {
+	if (blist_init(list, free_fn)) {
 		fprintf(stderr, "\x1b[31mError: could not init a new list\x1b[0m\n");
 		exit(1);
 	}
@@ -55,11 +56,14 @@ blist_t *blist_new() {
 }
 
 void blist_destroy(blist_t *list) {	// assuming that nodes are dynamically
-	bnode_t *tmp = list->head;		// allocated
-	while (tmp != NULL) {
-		bnode_t *cleaner = tmp;
-		tmp = tmp->next;
-		bnode_delete(cleaner);
+	bnode_t *current = list->head;		// allocated
+	while (list->head != NULL) {
+		current = list->head;
+		list->head = current->next;
+		if (list->free_fn) {
+			list->free_fn(current->value);
+		}
+		bnode_delete(current);
 	}
 }
 
